@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const morgan = require('morgan');
 const app = express();
 const router = require('./routes.js');
 
@@ -10,6 +11,7 @@ const router = require('./routes.js');
 const client = require('./db.js').client;
 
 app.use(express.json());
+app.use(morgan('dev'));
 
 app.use(router);
 

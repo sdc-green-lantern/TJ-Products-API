@@ -5,10 +5,12 @@
     "express": "^4.18.1",
     "fs": "^0.0.1-security",
     "k6": "^0.0.0",
+    "morgan": "^1.10.0",
     "pg": "^8.8.0"
   },
   "scripts": {
-    "dev": "nodemon --max-old-space-size=4096 server/index.js"
+    "dev": "nodemon --max-old-space-size=4096 server/index.js",
+    "stress": "k6 run k6StressTest.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

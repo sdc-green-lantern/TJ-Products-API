@@ -5,7 +5,7 @@ module.exports = {
     return db.query(
       `SELECT p.id, p.name, p.slogan, p.description, c.name category, p.default_price, p.created_at, p.updated_at FROM products p
       JOIN categories c ON p.category_id = c.id
-      OFFSET ${(page - 1) * count} LIMIT ${count}`
+      OFFSET ${(page - 1) * count + 1} LIMIT ${count}`
     );
   },
 
