@@ -3,7 +3,7 @@ const db = require('./db.js').client;
 module.exports = {
   getProds: (count, page) => {
     return db.query(
-      `SELECT p.id, p.name, p.slogan, p.description, p.default_price, c.name category FROM products p
+      `SELECT p.id, p.name, p.slogan, p.description, c.name category, p.default_price, p.created_at, p.updated_at FROM products p
       LEFT JOIN categories c ON p.category_id = c.id
       LIMIT ${count}`
     );
@@ -11,7 +11,7 @@ module.exports = {
 
   getProduct: (id) => {
     return db.query(`
-    SELECT p.id, p.name, p.slogan, p.description, p.default_price, c.name category,
+    SELECT p.id, p.name, p.slogan, p.description, p.default_price, p.created_at, p.updated_at, c.name category,
       (
         SELECT array_agg(json_build_object('feature',f.feature, 'value',f.value))
         FROM features f

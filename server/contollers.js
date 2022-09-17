@@ -13,7 +13,7 @@ module.exports = {
     const { product_id } = req.params;
     models
       .getProduct(product_id)
-      .then(({ rows }) => res.json(rows))
+      .then(({ rows }) => res.json(rows[0]))
       .catch((err) => res.send(err));
   },
 
