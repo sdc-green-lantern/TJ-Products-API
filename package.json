@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "csv-parser": "^3.0.0",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "fs": "^0.0.1-security",
+    "pg": "^8.8.0"
+  },
+  "scripts": {
+    "dev": "nodemon --max-old-space-size=4096 server/index.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
