@@ -4,7 +4,7 @@ module.exports = {
   getProds: (req, res) => {
     const { count = 5, page = 1 } = req.query;
     models
-      .getProds(count.toString(), page.toString())
+      .getProds(count, page)
       .then(({ rows }) => res.json(rows))
       .catch((err) => res.send(err));
   },
@@ -21,7 +21,7 @@ module.exports = {
     const { product_id } = req.params;
     models
       .getStyles(product_id)
-      .then(({ rows }) => res.json(rows))
+      .then(({ rows }) => res.json(rows[0]))
       .catch((err) => res.send(err));
   },
 

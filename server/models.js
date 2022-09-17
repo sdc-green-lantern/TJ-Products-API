@@ -4,8 +4,8 @@ module.exports = {
   getProds: (count, page) => {
     return db.query(
       `SELECT p.id, p.name, p.slogan, p.description, c.name category, p.default_price, p.created_at, p.updated_at FROM products p
-      LEFT JOIN categories c ON p.category_id = c.id
-      LIMIT ${count}`
+      JOIN categories c ON p.category_id = c.id
+      OFFSET ${(page - 1) * count} LIMIT ${count}`
     );
   },
 
