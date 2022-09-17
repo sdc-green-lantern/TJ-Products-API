@@ -17,8 +17,8 @@ app.use(router);
 
 const PORT = process.env.PORT || 8000;
 
-module.exports = { app };
-
 app.listen(PORT, () => {
   console.log(`Listening on port: ${PORT}`);
 });
+
+module.exports = { app, PORT };

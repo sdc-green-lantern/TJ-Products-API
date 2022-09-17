@@ -2,9 +2,11 @@ import http from 'k6/http';
 import sleep from 'k6';
 
 export default function () {
-  const baseUrl = `http://localhost:${process.env.PORT}`;
+  const baseUrl = `https://test.k6.io`;
 
-  http.get(baseUrl + '/products/1');
+  console.log(baseUrl);
+
+  http.get(baseUrl);
 
   sleep(1);
 }
