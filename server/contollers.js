@@ -29,7 +29,7 @@ module.exports = {
     const { product_id } = req.params;
     models
       .getRelated(product_id)
-      .then(({ rows }) => res.json(rows))
+      .then(({ rows }) => res.json(rows[0].related_products))
       .catch((err) => res.send(err));
   },
 };

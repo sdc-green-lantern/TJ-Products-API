@@ -56,6 +56,10 @@ module.exports = {
     WHERE prod.id=${id}
     `);
   },
+  getRelated: (id) => {
+    return db.query(`
+    SELECT array_agg(rp.related_product_id) related_products FROM related_products rp
+    WHERE rp.product_id=${id}
+    `);
+  },
 };
-
-// (select array_agg(json_build_object(sku,(select json_build_object('quantity',quantity,'size',size) from skus sku1 where sku1.sku=sku2.sku))) from skus sku2 where style_id=s.id)
