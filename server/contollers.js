@@ -1,3 +1,4 @@
+const { json } = require('express');
 const models = require('./models.js');
 
 module.exports = {
@@ -13,7 +14,10 @@ module.exports = {
     const { product_id } = req.params;
     models
       .getProduct(product_id)
-      .then(({ rows }) => res.json(rows[0]))
+      .then((results) => {
+        // res.json(rows[0]
+        res.json(results);
+      })
       .catch((err) => res.send(err));
   },
 
@@ -21,7 +25,10 @@ module.exports = {
     const { product_id } = req.params;
     models
       .getStyles(product_id)
-      .then(({ rows }) => res.json(rows[0]))
+      .then((results) => {
+        // res.json(rows[0])
+        res.json(results);
+      })
       .catch((err) => res.send(err));
   },
 

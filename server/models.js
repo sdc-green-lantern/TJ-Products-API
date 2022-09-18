@@ -10,52 +10,86 @@ module.exports = {
   },
 
   getProduct: (id) => {
-    return db.query(`
-    SELECT p.id, p.name, p.slogan, p.description, p.default_price, p.created_at, p.updated_at, c.name category,
-      (
-        SELECT array_agg(json_build_object('feature',f.feature, 'value',f.value))
-        FROM features f
-        JOIN products_features pf ON f.id=pf.feature_id
-        JOIN products p ON pf.product_id=p.id WHERE p.id=${id}
-      ) features
-    FROM products p
-    JOIN categories c ON p.category_id = c.id
-    WHERE p.id=${id}
-    `);
+    let product = {};
+    db.query(
+      `
+    SELECT f.feature, f.value FROM features f
+    JOIN products_features pf ON f.id=pf.feature_id
+    WHERE pf.product_id=${id}`
+    )
+      .then(({ rows }) => {
+        product.features = rows;
+      })
+      .catch((err) => err);
+    return db
+      .query(
+        `
+      SELECT p.id, p.name, p.slogan, p.description, p.default_price, c.name category, p.created_at, p.updated_at
+      FROM products p
+      JOIN categories c ON p.category_id=c.id
+      WHERE p.id=${id}
+      `
+      )
+      .then(({ rows }) => {
+        product = Object.assign(product, rows[0]);
+        return product;
+      })
+      .catch((err) => err);
   },
 
   getStyles: (id) => {
-    return db.query(`
-    SELECT prod.id product_id,
-      (
-        SELECT array_agg(json_build_object(
-          'style_id', s.id,
-          'name', s.name,
-          'original_price', prod.default_price,
-          'sale_price', s.sale_price,
-          'default?', s.default_sty,
-          'photos', (SELECT array_agg(json_build_object(
-            'thumbnail_url', phot.thumbnail_url,
-            'url', phot.url
-            ))
-            FROM photos phot
-            WHERE phot.style_id=s.id
-          ),
-          'skus', (
-            SELECT json_object_agg(sku, (
-              SELECT json_build_object('quantity',quantity,'size',size)
-              FROM skus sku1
-              WHERE sku1.sku=sku2.sku))
-            FROM skus sku2
-            WHERE sku2.style_id=s.id)
-        ))
-        FROM styles s
-        WHERE s.product_id=${id}
-      ) results
+    let product = {};
+    let original_price;
+    db.query(
+      `
+    SELECT prod.id product_id, prod.default_price
     FROM products prod
-    WHERE prod.id=${id}
-    `);
+    WHERE prod.id=${id}`
+    )
+      .then(({ rows }) => {
+        product.product_id = rows[0].product_id;
+        original_price = rows[0].default_price;
+      })
+      .catch((err) => console.log(err));
+    return db
+      .query(
+        `SELECT s.id style_id, s.name, s.sale_price, s.default_sty "default?"
+        FROM styles s WHERE s.product_id=${id}`
+      )
+      .then(({ rows }) => {
+        product.results = rows;
+        let promiseArr = [];
+        product.results.forEach((style) => {
+          style.original_price = original_price;
+          promiseArr.push(
+            db
+              .query(
+                `SELECT phot.thumbnail_url, phot.url
+              FROM photos phot WHERE phot.style_id=${style.style_id}`
+              )
+              .then(({ rows }) => {
+                style.photos = rows;
+              })
+              .catch((err) => console.log(err))
+          );
+          promiseArr.push(
+            db
+              .query(
+                `SELECT json_object_agg(sku, json_build_object('quantity', quantity, 'size',size)) as skus
+              FROM skus
+              WHERE skus.style_id=${style.style_id}`
+              )
+              .then(({ rows }) => {
+                style.skus = rows[0].skus;
+              })
+              .catch((err) => console.log(err))
+          );
+        });
+        return Promise.all(promiseArr).then(() => product);
+      })
+      .catch((err) => console.log(err));
   },
+
   getRelated: (id) => {
     return db.query(`
     SELECT array_agg(rp.related_product_id) related_products FROM related_products rp
