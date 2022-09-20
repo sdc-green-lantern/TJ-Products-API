@@ -13,7 +13,7 @@ const readPhotos = () => {
     .pipe(csv())
     .on('data', (data) => {
       if (data.styleId !== sId.toString()) {
-        let toFile = `\n${sId},"` + JSON.stringify(photos) + '"';
+        let toFile = `\n${sId},~` + JSON.stringify(photos) + '~';
         fs.appendFileSync('./data/Rphotos.csv', toFile, (err) =>
           err ? console.log(err) : null
         );
@@ -24,7 +24,7 @@ const readPhotos = () => {
       if (data.styleId === '1958102' && photos.length === 4) {
         console.log(data.styleId);
         console.log(photos);
-        let toFile = `\n${sId},"` + JSON.stringify(photos) + '"';
+        let toFile = `\n${sId},~` + JSON.stringify(photos) + '~';
         fs.appendFileSync('./data/Rphotos.csv', toFile, (err) =>
           err ? console.log(err) : null
         );

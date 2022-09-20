@@ -3,3 +3,4 @@ node_modules
 *.csv
 data
 server/oldModelsJoins.js
+server/oldModelsNoRead.js

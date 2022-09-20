@@ -14,10 +14,7 @@ module.exports = {
     const { product_id } = req.params;
     models
       .getProduct(product_id)
-      .then((results) => {
-        // res.json(rows[0]
-        res.json(results);
-      })
+      .then(({ rows }) => res.json(rows[0]))
       .catch((err) => res.send(err));
   },
 
@@ -25,10 +22,7 @@ module.exports = {
     const { product_id } = req.params;
     models
       .getStyles(product_id)
-      .then((results) => {
-        // res.json(rows[0])
-        res.json(results);
-      })
+      .then((results) => res.json(results))
       .catch((err) => res.send(err));
   },
 

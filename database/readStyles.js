@@ -16,9 +16,9 @@ const readStyls = async () => {
       if (data.productId !== pId.toString()) {
         prods[pId.toString()].results = styles;
         let toFile =
-          `\n${prods[pId.toString()].product_id},"` +
+          `\n${prods[pId.toString()].product_id},~` +
           JSON.stringify(prods[pId.toString()].results) +
-          '"';
+          '~';
         fs.appendFileSync('./data/Rstyles.csv', toFile, (err) =>
           err ? console.log(err) : null
         );
@@ -35,9 +35,9 @@ const readStyls = async () => {
       if (data.productId === '1000011' && styles.length === 5) {
         prods[pId.toString()].results = styles;
         let toFile =
-          `\n${prods[pId.toString()].product_id},"` +
+          `\n${prods[pId.toString()].product_id},~` +
           JSON.stringify(prods[pId.toString()].results) +
-          '"';
+          '~';
         fs.appendFileSync('./data/Rstyles.csv', toFile, (err) =>
           err ? console.log(err) : null
         );

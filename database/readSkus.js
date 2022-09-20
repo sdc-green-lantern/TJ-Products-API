@@ -15,7 +15,7 @@ const readSkus = () => {
       if (data.styleId !== sId.toString()) {
         styles[sId] = skus;
         let toFile =
-          `\n${Number(sId)},"` + JSON.stringify(styles[sId.toString()]) + '"';
+          `\n${Number(sId)},~` + JSON.stringify(styles[sId.toString()]) + '~';
         fs.appendFileSync('./data/Rskus.csv', toFile, (err) =>
           err ? console.log(err) : null
         );
@@ -26,7 +26,7 @@ const readSkus = () => {
       if (data.styleId === '1958102' && Object.keys(skus).length === 11) {
         styles[sId] = skus;
         let toFile =
-          `\n${Number(sId)},"` + JSON.stringify(styles[sId.toString()]) + '"';
+          `\n${Number(sId)},~` + JSON.stringify(styles[sId.toString()]) + '~';
         fs.appendFileSync('./data/Rskus.csv', toFile, (err) =>
           err ? console.log(err) : null
         );
