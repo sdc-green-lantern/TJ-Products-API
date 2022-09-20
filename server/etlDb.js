@@ -28,7 +28,7 @@ client
     client.query(`TRUNCATE cart`);
     client.query(`INSERT INTO cart (cookie_id, products) VALUES ($1, $2)`, [
       '1',
-      '[{ "abcd": 1 }]',
+      '[{ "sku1": 1 }, {"sku2": 2}]',
     ]);
   })
   .then(() =>
