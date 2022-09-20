@@ -9,11 +9,11 @@ export let options = {
   stages: [
     // spike test
     { duration: '10s', target: 100 }, // below normal load
-    // { duration: '1m', target: 100 },
-    { duration: '10s', target: 200 }, // spike to 1000 users
-    // { duration: '1m', target: 500 }, // stay at 1000 users
+    { duration: '1m', target: 100 },
+    { duration: '10s', target: 1000 }, // spike to 1000 users
+    { duration: '1m', target: 1000 }, // stay at 1000 users
     { duration: '10s', target: 100 }, // scale back down to normal
-    // { duration: '1m', target: 100 }, // stay at 100 users
+    { duration: '1m', target: 100 }, // stay at 100 users
     { duration: '10s', target: 0 }, // recovery stage
   ],
   /* typically used for benchmark testing
@@ -27,7 +27,7 @@ const baseUrl = `http://localhost:3000`;
 
 export default () => {
   http.batch([
-    // ['GET', `${baseUrl}/products`],
+    ['GET', `${baseUrl}/products`],
     ['GET', `${baseUrl}/products/${randProdId}`],
     ['GET', `${baseUrl}/products/${randProdId}/styles`],
     ['GET', `${baseUrl}/products/${randProdId}/related`],

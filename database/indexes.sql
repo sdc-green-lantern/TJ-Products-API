@@ -30,3 +30,26 @@ ON skus (sku, quantity, size, style_id);
 
 CREATE INDEX related_products_idx
 ON related_products (id, product_id, related_product_id);
+
+--READ TABLES
+
+DROP INDEX IF EXISTS r_products_idx;
+DROP INDEX IF EXISTS r_photos_idx;
+DROP INDEX IF EXISTS r_skus_idx;
+DROP INDEX IF EXISTS r_styles_idx;
+DROP INDEX IF EXISTS r_related_products_idx;
+
+CREATE INDEX r_products_idx
+ON r_products (id);
+
+CREATE INDEX r_photos_idx
+ON r_photos (style_id);
+
+CREATE INDEX r_skus_idx
+ON r_skus (style_id);
+
+CREATE INDEX r_styles_idx
+ON r_styles (product_id);
+
+CREATE INDEX r_related_products_idx
+ON r_related_products (product_id);
